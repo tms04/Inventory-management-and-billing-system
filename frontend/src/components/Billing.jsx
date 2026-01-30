@@ -442,15 +442,15 @@ function Billing() {
 
           {/* Items Section */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <h2 className="text-base md:text-lg font-semibold text-gray-900 border-b pb-2">
                 Items ({formData.items.length})
               </h2>
-              <div className="relative flex-1 max-w-xs">
+              <div className="relative w-full md:flex-1 md:max-w-xs">
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Search products..."
+                    placeholder="Search products to add..."
                     value={itemSearch}
                     onChange={(e) => {
                       setItemSearch(e.target.value);
@@ -460,7 +460,7 @@ function Billing() {
                     className="w-full p-2.5 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 bg-white"
                   />
                   {showItemDropdown && itemSearch && (
-                    <div className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-64 overflow-y-auto">
+                    <div className="absolute z-[100] w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-64 overflow-y-auto">
                       {filteredProducts.length === 0 ? (
                         <div className="p-3 text-gray-500 text-sm">No products found</div>
                       ) : (
@@ -543,14 +543,37 @@ function Billing() {
                               )}
                             </td>
                             <td className="p-3">
-                              <input
-                                type="number"
-                                min="1"
-                                max={getAvailableStock(item.productId)}
-                                value={item.quantity}
-                                onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                                className="w-16 p-1.5 text-sm border border-gray-300 rounded focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                              />
+                              <div className="flex items-center gap-1">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const q = Math.max(1, item.quantity - 1);
+                                    handleItemChange(index, 'quantity', q);
+                                  }}
+                                  className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded border border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium"
+                                >
+                                  −
+                                </button>
+                                <input
+                                  type="number"
+                                  min="1"
+                                  max={getAvailableStock(item.productId)}
+                                  value={item.quantity}
+                                  onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
+                                  className="w-14 p-1.5 text-sm border border-gray-300 rounded text-center focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const max = getAvailableStock(item.productId);
+                                    const q = Math.min(max, item.quantity + 1);
+                                    if (q <= max) handleItemChange(index, 'quantity', q);
+                                  }}
+                                  className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded border border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium"
+                                >
+                                  +
+                                </button>
+                              </div>
                               <div className="text-xs text-gray-500 mt-0.5">
                                 Max: {getAvailableStock(item.productId)}
                               </div>
@@ -613,15 +636,39 @@ function Billing() {
                         
                         <div className="grid grid-cols-2 gap-3 mb-3">
                           <div>
-                            <label className="text-xs text-gray-500">Quantity</label>
-                            <input
-                              type="number"
-                              min="1"
-                              max={getAvailableStock(item.productId)}
-                              value={item.quantity}
-                              onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                              className="w-full p-2 text-sm border border-gray-300 rounded"
-                            />
+                            <label className="text-xs text-gray-500 block mb-1">Quantity</label>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const q = Math.max(1, item.quantity - 1);
+                                  handleItemChange(index, 'quantity', q);
+                                }}
+                                className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-700 text-lg font-medium"
+                              >
+                                −
+                              </button>
+                              <input
+                                type="number"
+                                min="1"
+                                max={getAvailableStock(item.productId)}
+                                value={item.quantity}
+                                onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
+                                className="flex-1 min-w-0 p-2 text-sm border border-gray-300 rounded-lg text-center"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const max = getAvailableStock(item.productId);
+                                  const q = Math.min(max, item.quantity + 1);
+                                  if (q <= max) handleItemChange(index, 'quantity', q);
+                                }}
+                                className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-700 text-lg font-medium"
+                              >
+                                +
+                              </button>
+                            </div>
+                            <div className="text-xs text-gray-500 mt-0.5">Max: {getAvailableStock(item.productId)}</div>
                           </div>
                           <div>
                             <label className="text-xs text-gray-500">Price</label>
