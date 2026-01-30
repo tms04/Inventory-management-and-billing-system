@@ -321,7 +321,8 @@ router.get('/:id/whatsapp', async (req, res) => {
     }
     message += `*Grand Total:* ₹${bill.grandTotal}\n\n`;
     message += `Thank you for shopping`;
-
+    message += `\nFor More updates join our whatsapp group`;
+    message += `\nhttps://chat.whatsapp.com/E0sMMsbqD9Z4BW8MviwRtI?mode=gi_t`;
     // Generate WhatsApp link
     const phone = bill.customerPhone.replace(/[^0-9]/g, '');
     const encodedMessage = encodeURIComponent(message);
