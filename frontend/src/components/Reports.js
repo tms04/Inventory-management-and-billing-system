@@ -8,11 +8,7 @@ function Reports() {
   const [error, setError] = useState('');
   const [reportData, setReportData] = useState(null);
 
-  useEffect(() => {
-    loadReport();
-  }, [period]);
-
-  const loadReport = async () => {
+  const loadReport = React.useCallback(async () => {
     try {
       setLoading(true);
       setError('');
@@ -23,7 +19,11 @@ function Reports() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [period]);
+
+  useEffect(() => {
+    loadReport();
+  }, [loadReport]);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-IN', {
@@ -205,13 +205,13 @@ function Reports() {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Grand Total */}
                   {reportData.sales.grandTotal !== undefined && (
-                    <div className="grand-total-row" style={{ 
-                      marginTop: '20px', 
-                      padding: '15px', 
-                      background: '#e9ecef', 
+                    <div className="grand-total-row" style={{
+                      marginTop: '20px',
+                      padding: '15px',
+                      background: '#e9ecef',
                       borderRadius: '8px',
                       textAlign: 'center',
                       fontSize: '18px',

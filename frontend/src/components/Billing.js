@@ -4,18 +4,17 @@ import './Billing.css';
 
 function Billing() {
   const [availableProducts, setAvailableProducts] = useState([]);
-  const [bills, setBills] = useState([]);
+  const [, setBills] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [editingBill, setEditingBill] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
   const [whatsappLink, setWhatsappLink] = useState('');
-  const [savedBillId, setSavedBillId] = useState(null);
-  
+  const [, setSavedBillId] = useState(null);
+
   const [formData, setFormData] = useState({
     customerName: '',
     customerPhone: '',
@@ -57,7 +56,7 @@ function Billing() {
   const getAvailableStock = (productId) => {
     const product = availableProducts.find(p => p._id === productId);
     if (!product) return 0;
-    
+
     // If editing a bill, add back quantities already in the bill
     if (editingBill) {
       const itemInBill = formData.items.find(item => item.productId === productId);
@@ -66,7 +65,7 @@ function Billing() {
         return product.quantity + itemInBill.quantity;
       }
     }
-    
+
     return product.quantity;
   };
 
@@ -96,7 +95,7 @@ function Billing() {
 
   const handleAddItem = (product) => {
     const availableStock = getAvailableStock(product._id);
-    
+
     if (availableStock === 0) {
       setError('This item is out of stock!');
       return;
@@ -142,28 +141,28 @@ function Billing() {
     setFormData((prev) => {
       const newItems = [...prev.items];
       const item = newItems[index];
-      
+
       if (field === 'quantity') {
         const qty = parseFloat(value) || 0;
         const availableStock = getAvailableStock(item.productId);
-        
+
         // When editing, we need to consider what's already in the bill
         let maxAllowed = availableStock;
         if (editingBill) {
           // Available stock already includes what's in the bill
           maxAllowed = availableStock;
         }
-        
+
         if (qty > maxAllowed) {
           setError(`Maximum available stock is ${maxAllowed} for ${item.productName}`);
           return prev;
         }
-        
+
         if (qty <= 0) {
           setError('Quantity must be greater than 0');
           return prev;
         }
-        
+
         item[field] = qty;
         setError(''); // Clear error on valid input
       } else if (field === 'sellingPrice' || field === 'discount') {
@@ -177,7 +176,7 @@ function Billing() {
       } else {
         item[field] = value;
       }
-      
+
       return { ...prev, items: newItems };
     });
   };
@@ -279,13 +278,13 @@ function Billing() {
     try {
       setError('');
       setSuccess('');
-      
+
       // Reload products to get latest stock levels
       await loadAvailableProducts();
-      
+
       const response = await billsAPI.getById(bill._id);
       const billData = response.data;
-      
+
       setEditingBill(billData);
       setFormData({
         customerName: billData.customerName,
@@ -302,7 +301,7 @@ function Billing() {
         globalDiscount: billData.globalDiscount,
         paymentType: billData.paymentType || 'Cash',
       });
-      
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       setError('Failed to load bill for editing');
@@ -329,14 +328,14 @@ function Billing() {
         `- No profit will be recorded for this sale\n\n` +
         `This action cannot be undone.`
       );
-      
+
       if (confirmed) {
         await billsAPI.delete(bill._id);
         setSuccess(`Bill ${bill.billNumber} deleted successfully! Items have been returned to inventory.`);
-        
+
         await loadAvailableProducts();
         await loadBills();
-        
+
         // Clear search results if the deleted bill was in them
         if (showSearchResults) {
           setSearchResults(searchResults.filter(b => b._id !== bill._id));
@@ -386,14 +385,14 @@ function Billing() {
 
   const filteredProducts = availableProducts.filter(
     (product) => {
-      const matchesSearch = 
+      const matchesSearch =
         product.name.toLowerCase().includes(itemSearch.toLowerCase()) ||
         product.sku.toLowerCase().includes(itemSearch.toLowerCase());
-      
+
       // Only show products with stock > 0, or products already in the bill when editing
       const hasStock = getAvailableStock(product._id) > 0;
       const isInBill = editingBill && formData.items.some(item => item.productId === product._id);
-      
+
       return matchesSearch && (hasStock || isInBill);
     }
   );
@@ -443,7 +442,7 @@ function Billing() {
           {/* Items Section */}
           <div className="items-section">
             <h3>Items</h3>
-            
+
             {/* Item Search Dropdown */}
             <div className="item-search-container">
               <input
@@ -466,7 +465,7 @@ function Billing() {
                       const availableStock = getAvailableStock(product._id);
                       const isOutOfStock = availableStock === 0;
                       const isInBill = formData.items.some(item => item.productId === product._id);
-                      
+
                       return (
                         <div
                           key={product._id}
@@ -482,8 +481,8 @@ function Billing() {
                             {isInBill && <span style={{ color: '#007bff', marginLeft: '8px' }}>(Already in bill)</span>}
                           </div>
                           <div>
-                            ₹{product.sellingPrice.toFixed(2)} | 
-                            <span style={{ 
+                            ₹{product.sellingPrice.toFixed(2)} |
+                            <span style={{
                               color: availableStock > 10 ? '#28a745' : availableStock > 0 ? '#ffc107' : '#dc3545',
                               fontWeight: '600',
                               marginLeft: '5px'
