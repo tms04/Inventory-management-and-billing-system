@@ -7,9 +7,15 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon backend/server.js",
     "client": "cd frontend && npm start",
-    "install-all": "npm install && cd frontend && npm install"
+    "install-all": "npm install && cd frontend && npm install",
+    "start": "node backend/server.js",
+    "build": "npm install --omit=dev"
   },
-  "keywords": ["inventory", "billing", "mern"],
+  "keywords": [
+    "inventory",
+    "billing",
+    "mern"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
