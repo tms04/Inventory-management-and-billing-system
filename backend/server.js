@@ -1,8 +1,11 @@
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-require('dotenv').config();
+
+// Load .env from backend folder (required when running from project root)
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 
@@ -21,6 +24,10 @@ app.use('/api/credit-notes', require('./routes/creditNotes'));
 // MongoDB Connection
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ramya-goyam';
+
+if (!process.env.MONGODB_URI) {
+  console.warn('MONGODB_URI not set in .env, using localhost. Create backend/.env with MONGODB_URI=...');
+}
 
 mongoose.connect(MONGODB_URI)
   .then(() => {
