@@ -481,7 +481,10 @@ function Billing() {
                                   : 'hover:bg-blue-50 text-gray-800'
                               }`}
                             >
-                              <div className="font-medium truncate">{product.name}</div>
+                              <div className="font-medium truncate">
+                                {product.name}
+                                {isInBill && <span className="text-blue-600 ml-1.5 text-xs">(In bill)</span>}
+                              </div>
                               <div className="flex justify-between items-center mt-1 text-sm">
                                 <span className="text-gray-600">{product.sku}</span>
                                 <div className="flex items-center gap-3">
