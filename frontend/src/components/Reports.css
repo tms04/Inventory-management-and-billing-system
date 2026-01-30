@@ -1,0 +1,207 @@
+.period-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 15px;
+}
+
+.period-btn {
+  padding: 10px 25px;
+  border: none;
+  background: #f8f9fa;
+  color: #333;
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.period-btn:hover {
+  background: #e9ecef;
+}
+
+.period-btn.active {
+  background: #007bff;
+  color: white;
+}
+
+.report-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.report-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.report-header h3 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.date-range {
+  color: #666;
+  font-size: 14px;
+}
+
+.report-section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.section-title {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #007bff;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.metric-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.metric-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+}
+
+.metric-value.revenue {
+  color: #28a745;
+}
+
+.cash-card {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+}
+
+.cash-card .metric-label {
+  color: rgba(255,255,255,0.9);
+}
+
+.cash-value {
+  color: white;
+  font-size: 32px;
+}
+
+.report-summary {
+  background: #e9ecef;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.summary-content {
+  background: white;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.summary-content p {
+  padding: 8px 0;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.summary-content p:last-child {
+  border-bottom: none;
+}
+
+.summary-content strong {
+  color: #333;
+  margin-right: 10px;
+}
+
+.payment-type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.payment-column {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.payment-column-header {
+  padding: 15px;
+  text-align: center;
+}
+
+.payment-column-header h5 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.payment-total {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.payment-bills-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.payment-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payment-table th,
+.payment-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.payment-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+.payment-table tbody tr:hover {
+  background: #f5f5f5;
+}
+
+.no-bills {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+@media (max-width: 1200px) {
+  .payment-type-grid {
+    grid-template-columns: 1fr;
+  }
+}
