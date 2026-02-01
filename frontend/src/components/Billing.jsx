@@ -634,8 +634,9 @@ function Billing() {
                           </button>
                         </div>
                         
-                        <div className="grid grid-cols-2 gap-3 mb-3">
-                          <div>
+                        <div className="space-y-3 mb-3">
+                          {/* Quantity: full width on one line */}
+                          <div className="w-full">
                             <label className="text-xs text-gray-500 block mb-1">Quantity</label>
                             <div className="flex items-center gap-2">
                               <button
@@ -670,33 +671,34 @@ function Billing() {
                             </div>
                             <div className="text-xs text-gray-500 mt-0.5">Max: {getAvailableStock(item.productId)}</div>
                           </div>
+                          {/* Price, Discount, Subtotal below */}
                           <div>
-                            <label className="text-xs text-gray-500">Price</label>
+                            <label className="text-xs text-gray-500 block mb-1">Price</label>
                             <input
                               type="number"
                               min="0"
                               step="0.01"
                               value={item.sellingPrice}
                               onChange={(e) => handleItemChange(index, 'sellingPrice', e.target.value)}
-                              className="w-full p-2 text-sm border border-gray-300 rounded"
+                              className="w-full p-2.5 text-sm border border-gray-300 rounded-lg"
                             />
                           </div>
                           <div>
-                            <label className="text-xs text-gray-500">Discount</label>
+                            <label className="text-xs text-gray-500 block mb-1">Discount</label>
                             <input
                               type="number"
                               min="0"
                               step="0.01"
                               value={item.discount}
                               onChange={(e) => handleItemChange(index, 'discount', e.target.value)}
-                              className="w-full p-2 text-sm border border-gray-300 rounded"
+                              className="w-full p-2.5 text-sm border border-gray-300 rounded-lg"
                             />
                           </div>
-                          <div className="flex flex-col">
-                            <label className="text-xs text-gray-500">Subtotal</label>
-                            <div className="font-medium mt-2">
+                          <div>
+                            <span className="text-xs text-gray-500">Subtotal </span>
+                            <span className="font-medium text-gray-900">
                               ₹{((item.quantity * item.sellingPrice) - (item.discount || 0)).toFixed(2)}
-                            </div>
+                            </span>
                           </div>
                         </div>
                         
