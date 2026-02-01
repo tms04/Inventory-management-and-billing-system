@@ -644,7 +644,7 @@ function Billing() {
                                   const q = Math.max(1, item.quantity - 1);
                                   handleItemChange(index, 'quantity', q);
                                 }}
-                                className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-700 text-lg font-medium"
+                                className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xl font-medium"
                               >
                                 −
                               </button>
@@ -654,7 +654,7 @@ function Billing() {
                                 max={getAvailableStock(item.productId)}
                                 value={item.quantity}
                                 onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                                className="flex-1 min-w-0 p-2 text-sm border border-gray-300 rounded-lg text-center"
+                                className="w-14 min-w-[3.5rem] flex-shrink-0 p-2.5 text-base font-semibold border-2 border-gray-300 rounded-lg text-center bg-white text-gray-900"
                               />
                               <button
                                 type="button"
@@ -663,7 +663,7 @@ function Billing() {
                                   const q = Math.min(max, item.quantity + 1);
                                   if (q <= max) handleItemChange(index, 'quantity', q);
                                 }}
-                                className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-700 text-lg font-medium"
+                                className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xl font-medium"
                               >
                                 +
                               </button>
