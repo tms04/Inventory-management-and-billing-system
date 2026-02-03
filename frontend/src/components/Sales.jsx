@@ -42,7 +42,6 @@ function Sales() {
   const formatDateRange = () => {
     if (!data?.dateRange) return '';
     const start = new Date(data.dateRange.start);
-    const end = new Date(data.dateRange.end);
     if (viewMode === 'day') {
       return start.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
