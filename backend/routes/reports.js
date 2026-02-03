@@ -329,4 +329,62 @@ router.get('/comprehensive/:period', async (req, res) => {
   }
 });
 
+// Get sales detail by date (day) or by month - items sold with quantities
+router.get('/sales-detail', async (req, res) => {
+  try {
+    const { type, date, year, month } = req.query;
+    let start, end;
+
+    if (type === 'month' && year && month) {
+      const y = parseInt(year, 10);
+      const m = parseInt(month, 10) - 1; // 0-indexed
+      if (isNaN(y) || isNaN(m) || m < 0 || m > 11) {
+        return res.status(400).json({ error: 'Invalid year or month' });
+      }
+      start = new Date(y, m, 1, 0, 0, 0, 0);
+      end = new Date(y, m + 1, 0, 23, 59, 59, 999);
+    } else if (type === 'day' && date) {
+      const d = new Date(date);
+      if (isNaN(d.getTime())) {
+        return res.status(400).json({ error: 'Invalid date' });
+      }
+      start = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
+      end = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+    } else {
+      return res.status(400).json({
+        error: 'Provide type=day&date=YYYY-MM-DD or type=month&year=YYYY&month=M'
+      });
+    }
+
+    const bills = await Bill.find({
+      createdAt: { $gte: start, $lte: end }
+    });
+
+    const itemsSoldMap = new Map();
+    bills.forEach(bill => {
+      bill.items.forEach(item => {
+        const key = item.productId.toString();
+        const current = itemsSoldMap.get(key) || { productName: item.productName, sku: item.sku, quantity: 0 };
+        current.quantity += item.quantity;
+        itemsSoldMap.set(key, current);
+      });
+    });
+
+    const itemsSoldBreakdown = Array.from(itemsSoldMap.values()).sort((a, b) => b.quantity - a.quantity);
+    const totalQuantity = itemsSoldBreakdown.reduce((sum, i) => sum + i.quantity, 0);
+    const grossRevenue = bills.reduce((sum, bill) => sum + bill.grandTotal, 0);
+
+    res.json({
+      type,
+      dateRange: { start, end },
+      totalBills: bills.length,
+      totalQuantity,
+      grossRevenue,
+      itemsSoldBreakdown
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

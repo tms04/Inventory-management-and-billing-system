@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import Inventory from './components/Inventory';
 import Billing from './components/Billing';
 import Reports from './components/Reports';
+import Sales from './components/Sales';
 
 function Navigation() {
   const location = useLocation();
@@ -35,6 +36,14 @@ function Navigation() {
         >
           Reports
         </Link>
+        <Link
+          to="/sales"
+          className={`px-3 py-1.5 rounded transition ${
+            location.pathname === '/sales' ? 'bg-white/30' : 'hover:bg-white/20'
+          }`}
+        >
+          Sales
+        </Link>
       </nav>
     </div>
   );
@@ -49,6 +58,7 @@ function App() {
           <Route path="/" element={<Inventory />} />
           <Route path="/billing" element={<Billing />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/sales" element={<Sales />} />
         </Routes>
       </div>
     </Router>

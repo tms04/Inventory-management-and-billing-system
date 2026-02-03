@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { reportsAPI } from '../api/api';
 
 function Reports() {
@@ -44,6 +45,12 @@ function Reports() {
             <p className="text-gray-500 text-sm mt-1">
               Comprehensive insights into your business performance
             </p>
+            <Link
+              to="/sales"
+              className="inline-flex items-center gap-1.5 mt-2 text-sm font-medium text-blue-600 hover:text-blue-800"
+            >
+              View Sales by Date →
+            </Link>
           </div>
           
           {/* Period Selector */}

@@ -37,6 +37,7 @@ export const reportsAPI = {
   getInventory: (period) => api.get(`/reports/inventory/${period}`),
   getCash: (period) => api.get(`/reports/cash/${period}`),
   getComprehensive: (period) => api.get(`/reports/comprehensive/${period}`),
+  getSalesDetail: (params) => api.get('/reports/sales-detail', { params }),
 };
 
 // Settings API
